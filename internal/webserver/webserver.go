@@ -5,7 +5,9 @@ import (
 	"log"
 	"net/http"
 
+	_filesystem "github.com/stubbedev/local.stubbe.dev/internal/filesystem"
 	_os "github.com/stubbedev/local.stubbe.dev/internal/os"
+	_routes "github.com/stubbedev/local.stubbe.dev/internal/routes"
 )
 
 func Serve(host string, port string) {
@@ -14,6 +16,18 @@ func Serve(host string, port string) {
 	log.Fatal(
 		http.ListenAndServe(host_and_port, nil),
 	)
+}
+
+func SetRoute(route string) any {
+	_routes.RouteHandler(route)
+	return nil
+}
+
+func SetStaticRoutes(root string) {
+	file_path_routes := _filesystem.GetFolderPaths(root)
+	for _, path := range file_path_routes {
+		SetRoute(_filesystem.RemovePathPrefix(path, root))
+	}
 }
 
 func ServeEnv() {
