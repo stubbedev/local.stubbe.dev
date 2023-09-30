@@ -12,11 +12,20 @@ import (
 )
 
 func Serve(host string, port string) {
+	SetStaticAssetsRoute()
 	host_and_port := host + ":" + port
 	fmt.Printf("Listening on: %s", host_and_port)
 	log.Fatal(
 		http.ListenAndServe(host_and_port, nil),
 	)
+}
+
+func SetStaticAssetsRoute() {
+	asset_route := "/" + _template.PAGE_ASSETS + "/"
+	_routes.AssetsRouteHandler("/styles/reset", asset_route+"css/resets.css")
+	_routes.AssetsRouteHandler("/styles/styles", asset_route+"css/styles.css")
+
+	_routes.AssetsRouteHandler("/images/favicon", asset_route+"images/favicon.svg")
 }
 
 func SetRoute(route string) any {

@@ -8,6 +8,7 @@ import (
 
 const PAGE_TEMPLATES = "static/pages"
 const PAGE_PARTIALS = "static/partials"
+const PAGE_ASSETS = "static/assets"
 
 func LoadTemplate(route string) *template.Template {
 	path := PAGE_TEMPLATES + route
