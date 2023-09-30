@@ -5,6 +5,6 @@ import (
 )
 
 func main() {
-	_webserver.SetStaticRoutes("static/templates/")
+	_webserver.SetStaticRoutes()
 	_webserver.ServeEnv()
 }

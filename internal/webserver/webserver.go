@@ -8,6 +8,7 @@ import (
 	_filesystem "github.com/stubbedev/local.stubbe.dev/internal/filesystem"
 	_os "github.com/stubbedev/local.stubbe.dev/internal/os"
 	_routes "github.com/stubbedev/local.stubbe.dev/internal/routes"
+	_template "github.com/stubbedev/local.stubbe.dev/internal/template"
 )
 
 func Serve(host string, port string) {
@@ -23,8 +24,9 @@ func SetRoute(route string) any {
 	return nil
 }
 
-func SetStaticRoutes(root string) {
-	file_path_routes := _filesystem.GetFolderPaths(root)
+func SetStaticRoutes() {
+	root := _template.PAGE_TEMPLATES
+	file_path_routes := append(_filesystem.GetFolderPaths(root), "/")
 	for _, path := range file_path_routes {
 		SetRoute(_filesystem.RemovePathPrefix(path, root))
 	}

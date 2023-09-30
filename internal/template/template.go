@@ -6,8 +6,11 @@ import (
 	"strings"
 )
 
+const PAGE_TEMPLATES = "static/pages"
+const PAGE_PARTIALS = "static/partials"
+
 func LoadTemplate(route string) *template.Template {
-	path := "static/templates" + route
+	path := PAGE_TEMPLATES + route
 	var abs_path string
 	if strings.HasSuffix(path, "/") {
 		abs_path = path + "index.html"

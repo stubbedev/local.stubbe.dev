@@ -12,6 +12,7 @@ func GetFolderPaths(root string) []string {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	if !strings.HasSuffix(root, "/") {
 		root = root + "/"
 	}
@@ -31,5 +32,5 @@ func GetFolderPaths(root string) []string {
 }
 
 func RemovePathPrefix(path string, prefix string) string {
-	return strings.Replace(path, prefix, "/", 1)
+	return strings.Replace(strings.Replace(path, prefix, "/", 1), "//", "/", -1)
 }
