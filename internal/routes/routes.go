@@ -18,6 +18,7 @@ func RouteHandler(route string) {
 
 func AssetsRouteHandler(route string, asset_path string) {
 	http.HandleFunc(route, func(r http.ResponseWriter, rq *http.Request) {
+		fmt.Println(asset_path)
 		http.ServeFile(r, rq, asset_path)
 	})
 }

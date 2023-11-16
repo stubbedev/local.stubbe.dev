@@ -32,5 +32,6 @@ html {
 }
 
 body {
-	background-color: var(--cr)
+	background: pink;
+	/* background-color: var(--cr) */
 }

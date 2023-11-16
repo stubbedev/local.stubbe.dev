@@ -24,7 +24,6 @@ func SetStaticAssetsRoute() {
 	asset_route := "/" + _template.PAGE_ASSETS + "/"
 	_routes.AssetsRouteHandler("/styles/reset", asset_route+"css/resets.css")
 	_routes.AssetsRouteHandler("/styles/styles", asset_route+"css/styles.css")
-
 	_routes.AssetsRouteHandler("/images/favicon", asset_route+"images/favicon.svg")
 }
 
