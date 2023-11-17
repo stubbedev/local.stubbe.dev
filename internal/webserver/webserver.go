@@ -21,15 +21,13 @@ func Serve(host string, port string) {
 }
 
 func SetStaticAssetsRoute() {
-	asset_route := "/" + _template.PAGE_ASSETS + "/"
-	_routes.AssetsRouteHandler("/styles/reset", asset_route+"css/resets.css")
-	_routes.AssetsRouteHandler("/styles/styles", asset_route+"css/styles.css")
-	_routes.AssetsRouteHandler("/images/favicon", asset_route+"images/favicon.svg")
+	fs := http.FileServer(http.Dir("/static/assets/css"))
+	// asset_paths := "/" + _template.PAGE_ASSETS + "/"
+	http.Handle("/static/css", fs)
 }
 
-func SetRoute(route string) any {
+func SetRoute(route string) {
 	_routes.RouteHandler(route)
-	return nil
 }
 
 func SetStaticRoutes() {
