@@ -1,0 +1,68 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+$client_forward = $_SERVER['HTTP_X_FORWARDED_FOR'];
+$user_agent = $_SERVER['HTTP_USER_AGENT'];
+$user_id = $_GET['user_id'];
+
+
+
+/*
+$client_os        = getOS();
+$client_browser   = getBrowser();
+$client_info = $client_os . " " .$client_browser . " " . (string)$client_forward;
+*/
+$client_forward = hash('sha256', $client_forward);
+$client_hash = $user_id.(string)$client_forward;
+
+function get_request_data(){
+    $client_request_body = json_decode(file_get_contents('php://input'), true);
+    return $client_request_body;
+}
+
+function get_client_data($client_hash){
+    $client_data = (file_exists('./users/' . $client_hash . '.json')) ? file_get_contents('./users/' . $client_hash . '.json') : '{}';
+    return $client_data;
+}
+
+function update_client_data($client_hash, $client_data){
+    $f=fopen('./users/' . $client_hash . '.json','w');
+    fwrite($f,  $client_data);
+    fclose($f);
+}
+
+function delete_client_data($client_hash){
+    unlink('./users/' . $client_hash . '.json');
+}
+
+function verify_client_info($client_hash){
+    $client_info = file_exists('./users/' . $client_hash . '.json') ? true : false;
+    return $client_info;
+}
+
+function userListApi($client_hash){
+    $request_method = $_SERVER['REQUEST_METHOD'];
+    switch($request_method){
+        case 'POST':
+            $client_data = json_encode(get_request_data());
+            update_client_data($client_hash, $client_data);
+            echo $client_data;
+            break;
+        case 'GET':
+            if(verify_client_info($client_hash)){
+                $client_data = get_client_data($client_hash);
+                $client_data = json_decode($client_data, true);
+                echo json_encode($client_data);
+            } else {
+                echo '{"items":false}';
+            }
+            break;
+        case 'DELETE':
+            delete_client_data($client_hash);
+            echo '{"message": "User deleted"}';
+            break;
+    }
+}
+userListApi($client_hash);
+?>
